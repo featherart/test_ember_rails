@@ -8,22 +8,27 @@ class CrudsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @contacts }
+      format.json { render json: @cruds }
     end
   end
 
   # GET /cruds/1
   # GET /cruds/1.json
   def show
+    @crud = Crud.find(params[:id])
+
+    respond_to do |format|
+      format.json { render json: @crud }
+    end
   end
 
   # GET /cruds/new
   def new
     @crud = Crud.new
-  end
 
-  # GET /cruds/1/edit
-  def edit
+    respond_to do |format|
+      format.json { render json: @crud }
+    end
   end
 
   # POST /cruds
@@ -33,10 +38,8 @@ class CrudsController < ApplicationController
 
     respond_to do |format|
       if @crud.save
-        format.html { redirect_to @crud, notice: 'Crud was successfully created.' }
         format.json { render :show, status: :created, location: @crud }
       else
-        format.html { render :new }
         format.json { render json: @crud.errors, status: :unprocessable_entity }
       end
     end
@@ -47,10 +50,8 @@ class CrudsController < ApplicationController
   def update
     respond_to do |format|
       if @crud.update(crud_params)
-        format.html { redirect_to @crud, notice: 'Crud was successfully updated.' }
         format.json { render :show, status: :ok, location: @crud }
       else
-        format.html { render :edit }
         format.json { render json: @crud.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +62,7 @@ class CrudsController < ApplicationController
   def destroy
     @crud.destroy
     respond_to do |format|
-      format.html { redirect_to cruds_url, notice: 'Crud was successfully destroyed.' }
+      
       format.json { head :no_content }
     end
   end
